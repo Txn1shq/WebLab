@@ -16,12 +16,10 @@ function ContactPage() {
   });
 
   const [cart, setCart] = useState([]);
+  const [showBill, setShowBill] = useState(true);
 
   function discount(amount) {
-    if (amount > 10000) {
-      return amount * 0.1;
-    }
-    else return 0;
+    return amount > 10000 ? amount * 0.1 : 0;
   }
 
   function handleChange(e) {
@@ -36,12 +34,40 @@ function ContactPage() {
     );
   }
 
+  function clearForm() {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    });
+    setCart([]);
+    alert("Thank you for contacting us!");
+  }
+
+  function toggleBill() {
+    setShowBill(prev => !prev);
+  }
+
   const total = cart.reduce((sum, item) => sum + item.price, 0);
   const discountAmount = discount(total);
   const payableAmount = total - discountAmount;
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^[0-9]{10}$/;
+
+    if (!emailPattern.test(formData.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    if (!phonePattern.test(formData.phone)) {
+      alert("Please enter a valid 10-digit mobile number");
+      return;
+    }
 
     fetch("http://localhost:3001/contact", {
       method: "POST",
@@ -95,6 +121,7 @@ function ContactPage() {
             value={formData.phone}
             onChange={handleChange}
           />
+
           <div className="cartservices">
             <h4>Select Services</h4>
             {SERVICES.map((service) => (
@@ -119,14 +146,22 @@ function ContactPage() {
           ></textarea>
 
           {cart.length > 0 && (
+            <button type="button" className="bill-box-summary"onClick={toggleBill}>
+              {showBill ? "Hide Bill Summary" : "Show Bill Summary"}
+            </button>
+          )}
+
+          {showBill && cart.length > 0 && (
             <div className="bill-box">
               <h4>Bill Summary</h4>
+
               {cart.map(item => (
                 <div key={item.id} className="bill-row">
                   <span>{item.name}</span>
                   <span>₹{item.price}</span>
                 </div>
               ))}
+
               <div className="bill-divider"></div>
 
               <div className="bill-row">
@@ -147,8 +182,10 @@ function ContactPage() {
           )}
 
           <button type="submit">Send Message</button>
+          <button type="button" className="clear-form" onClick={clearForm}>
+            Clear Form
+          </button>
         </form>
-
 
         <div className="contact-info">
           <div className="info-card">
@@ -175,7 +212,6 @@ function ContactPage() {
             </div>
           </div>
 
-
           <iframe
             title="map"
             src="https://www.google.com/maps?q=Times%20Square&output=embed"
@@ -184,7 +220,15 @@ function ContactPage() {
           ></iframe>
         </div>
       </div>
+      <div><section className="festival-offers">
+  <h2>Christmas & New Year Special Offers</h2>
+  <p>
+    Celebrate the festive season with exclusive interior design discounts.
+    Get up to 20% off on selected services and free consultation.
+  </p>
+</section></div>
     </section>
+    
   );
 }
 

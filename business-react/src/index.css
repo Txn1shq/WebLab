@@ -691,3 +691,25 @@ html, body {
   font-size: 1.05rem;
   margin-top: 8px;
 }
+.clear-form {
+  margin-top:20px;
+}
+.bill-box-summary{
+  margin-bottom:20px;
+}
+  .festival-offers {
+    background-color: #fef6e4;
+    padding: 30px;
+    margin: 40px auto;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  .festival-offers h2 {
+    color: #d62828;
+  }
+
+  .festival-offers p {
+    font-size: 16px;
+    color: #333;
+  }
