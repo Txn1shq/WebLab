@@ -5,42 +5,46 @@
     "message": "Hello"
   },
   {
-    "name": "tanishqqqq",
-    "email": "wdhsu@gmail.com",
-    "message": "hello"
-  },
-  {
-    "name": "vish",
-    "email": "dfhge@gmail.com",
-    "message": "dwgywe"
+    "name": "Tanishq Sharma",
+    "email": "sharmatanishq891@gmail.com",
+    "phone": "09131780073",
+    "message": "help needed",
+    "selectedServices": [
+      {
+        "id": 3,
+        "name": "Architecture Planning",
+        "price": 8000
+      },
+      {
+        "id": 2,
+        "name": "Building Material Advice",
+        "price": 7000
+      },
+      {
+        "id": 1,
+        "name": "Modelling",
+        "price": 5000
+      }
+    ],
+    "totalAmount": 18000
   },
   {
     "name": "Tanishq Sharma",
     "email": "sharmatanishq891@gmail.com",
     "phone": "09131780073",
-    "message": "hellow, i have decent project\n"
-  },
-  {
-    "name": "Tanishq Sharma",
-    "email": "sharmatanishq891@gmail.com",
-    "phone": "09131780073",
-    "message": "tanishq its 14.42\n"
-  },
-  {
-    "name": "Tanishq Sharma",
-    "email": "sharmatanishq891@gmail.com",
-    "phone": "09131780073",
-    "message": "14:44 pm"
-  },
-  {
-    "name": "Test User",
-    "email": "test@example.com",
-    "message": "Hello world"
-  },
-  {
-    "name": "Tanishq Sharma",
-    "email": "sharmatanishq891@gmail.com",
-    "phone": "09131780073",
-    "message": "owm ki maa chudegi pakki waali"
+    "message": "done",
+    "selectedServices": [
+      {
+        "id": 2,
+        "name": "Building Material Advice",
+        "price": 7000
+      },
+      {
+        "id": 3,
+        "name": "Architecture Planning",
+        "price": 8000
+      }
+    ],
+    "totalAmount": 13500
   }
 ]

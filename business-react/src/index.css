@@ -629,17 +629,65 @@ html, body {
 
   .why-cards {
     display: grid;
-    grid-template-columns: 1fr;   /* ONE card per row */
+    grid-template-columns: 1fr;   
     gap: 20px;
   }
 
   .why-card {
-    height: auto;                /* 👈 IMPORTANT */
-    overflow: visible;
+    height: auto;                
   }
 }
 @media (max-width: 360px) {
   * {
     max-width: 100%;
   }
+}
+.cartservices {
+  margin: 20px 0;
+}
+
+.cartservices h4 {
+  margin-bottom: 10px;
+}
+
+.service-option {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.bill-box {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.bill-box h4 {
+  margin-bottom: 10px;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.bill-divider {
+  height: 1px;
+  background: #ddd;
+  margin: 10px 0;
+}
+
+.bill-row.discount {
+  color: #2e7d32;
+}
+
+.bill-row.final {
+  font-size: 1.05rem;
+  margin-top: 8px;
 }

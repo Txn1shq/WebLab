@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
+const SERVICES = [
+  { id: 1, name: "Modelling", price: 5000 },
+  { id: 2, name: "Building Material Advice", price: 7000 },
+  { id: 3, name: "Architecture Planning", price: 8000 }
+];
+
 function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -9,9 +15,30 @@ function ContactPage() {
     message: ""
   });
 
+  const [cart, setCart] = useState([]);
+
+  function discount(amount) {
+    if (amount > 10000) {
+      return amount * 0.1;
+    }
+    else return 0;
+  }
+
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
+
+  function toggleService(service) {
+    setCart((prev) =>
+      prev.find((item) => item.id === service.id)
+        ? prev.filter((item) => item.id !== service.id)
+        : [...prev, service]
+    );
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const discountAmount = discount(total);
+  const payableAmount = total - discountAmount;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,22 +46,19 @@ function ContactPage() {
     fetch("http://localhost:3001/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    })
-      .then(res => {
-        if (!res.ok) {
-           throw new Error("Network response was not ok");
-        }
-        return res.json();
+      body: JSON.stringify({
+        ...formData,
+        selectedServices: cart,
+        totalAmount: payableAmount
       })
+    })
+      .then(res => res.json())
       .then(() => {
         alert("Message sent successfully!");
         setFormData({ name: "", email: "", phone: "", message: "" });
+        setCart([]);
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Failed to send message. Please try again.");
-      });
+      .catch(() => alert("Failed to send message"));
   }
 
   return (
@@ -45,7 +69,6 @@ function ContactPage() {
       </p>
 
       <div className="contact-container">
-        {/* LEFT FORM */}
         <form className="contact-form" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -72,6 +95,20 @@ function ContactPage() {
             value={formData.phone}
             onChange={handleChange}
           />
+          <div className="cartservices">
+            <h4>Select Services</h4>
+            {SERVICES.map((service) => (
+              <label key={service.id} className="service-option">
+                <span>{service.name}</span>
+                <span>₹{service.price}</span>
+                <input
+                  type="checkbox"
+                  checked={cart.some((item) => item.id === service.id)}
+                  onChange={() => toggleService(service)}
+                />
+              </label>
+            ))}
+          </div>
 
           <textarea
             name="message"
@@ -81,16 +118,44 @@ function ContactPage() {
             required
           ></textarea>
 
+          {cart.length > 0 && (
+            <div className="bill-box">
+              <h4>Bill Summary</h4>
+              {cart.map(item => (
+                <div key={item.id} className="bill-row">
+                  <span>{item.name}</span>
+                  <span>₹{item.price}</span>
+                </div>
+              ))}
+              <div className="bill-divider"></div>
+
+              <div className="bill-row">
+                <span>Total</span>
+                <span>₹{total}</span>
+              </div>
+
+              <div className="bill-row discount">
+                <span>Discount</span>
+                <span>- ₹{discountAmount}</span>
+              </div>
+
+              <div className="bill-row final">
+                <strong>Payable Amount</strong>
+                <strong>₹{payableAmount}</strong>
+              </div>
+            </div>
+          )}
+
           <button type="submit">Send Message</button>
         </form>
 
-        {/* RIGHT INFO */}
+
         <div className="contact-info">
           <div className="info-card">
             <FaMapMarkerAlt />
             <div>
               <h4>Visit Us</h4>
-              <p>DSCE, Bengaluru,India</p>
+              <p>DSCE, Bengaluru, India</p>
             </div>
           </div>
 
@@ -110,7 +175,7 @@ function ContactPage() {
             </div>
           </div>
 
-          {/* MAP */}
+
           <iframe
             title="map"
             src="https://www.google.com/maps?q=Times%20Square&output=embed"
